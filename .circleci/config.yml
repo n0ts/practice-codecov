@@ -35,12 +35,12 @@ jobs:
           name: Test
           command: |
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
-            go test -v -race -coverprofile=coverage.out -covermode=atomic ./lambda/... | tee ${TEST_RESULTS}/go-test.out
+            go test -v -race -coverprofile=coverage.out -covermode=atomic ./... | tee ${TEST_RESULTS}/go-test.out
 
       - run:
           name: Build
           command:
-            GOOS=linux GOARCH=amd64 go build -o main lambda/main.go
+            GOOS=linux GOARCH=amd64 go build -o main main.go
 
       - run:
           name: Codecov
