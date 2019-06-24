@@ -1,0 +1,62 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/golang:1.12
+
+    environment:
+      GOPATH: /home/circleci/go
+      TEST_RESULTS: /tmp/test-results
+
+    steps:
+      - run:
+          name: Append PATH
+          command: |
+            echo 'export PATH=${GOPATH}/bin/:${PATH}' >> $BASH_ENV
+
+      - checkout
+
+      - run:
+          name: Create test results directory
+          command: |
+            mkdir -p $TEST_RESULTS
+
+      - restore_cache:
+          keys:
+            - insight-cache-go-pkg
+
+      - run:
+          name: Install packages
+          command: |
+            go get golang.org/x/lint/golint
+            go get github.com/jstemmer/go-junit-report
+
+      - run:
+          name: Test
+          command: |
+            trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
+            go test -v -race -coverprofile=coverage.out -covermode=atomic ./lambda/... | tee ${TEST_RESULTS}/go-test.out
+
+      - run:
+          name: Build
+          command:
+            GOOS=linux GOARCH=amd64 go build -o main lambda/main.go
+
+      - run:
+          name: Codecov
+          command: |
+            bash <(curl -s https://codecov.io/bash)
+
+      - save_cache:
+          key: insight-cache-go-pkg
+          paths:
+            - "/home/circleci/go"
+
+      - store_test_results:
+          path: /tmp/test-results
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
