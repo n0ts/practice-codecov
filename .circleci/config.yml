@@ -32,6 +32,16 @@ jobs:
             go get github.com/jstemmer/go-junit-report
 
       - run:
+          name: Lint
+          command: |
+            golint ./lambda/...
+
+      - run:
+          name: Vet
+          command: |
+            go vet ./lambda/...
+
+      - run:
           name: Test
           command: |
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
