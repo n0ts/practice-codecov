@@ -33,18 +33,15 @@ jobs:
 
       - run:
           name: Fmt
-          command: |
-            test -z "$(gofmt -s -l . | tee /dev/stderr)"
+          command: ! go fmt ./... 2>&1 | read
 
       - run:
           name: Lint
-          command: |
-            golint -set_exit_status ./...
+          command: golint -set_exit_status ./...
 
       - run:
           name: Vet
-          command: |
-            go vet ./...
+          command: go vet ./...
 
       - run:
           name: Test
