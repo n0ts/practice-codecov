@@ -16,6 +16,7 @@ func TestHelloWorld(t *testing.T) {
 
 func TestMain(m *testing.M) {
 	fmt.Println("before test")
+	main()
 	code := m.Run()
 	fmt.Println("after test")
 	os.Exit(code)
