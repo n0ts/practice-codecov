@@ -32,6 +32,11 @@ jobs:
             go get github.com/jstemmer/go-junit-report
 
       - run:
+          name: Fmt
+          command: |
+            test -z "$(gofmt -s -l ./... | tee /dev/stderr)"
+
+      - run:
           name: Lint
           command: |
             golint -set_exit_status ./...
