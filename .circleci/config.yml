@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Lint
           command: |
-            golint ./...
+            golint -set_exit_status ./...
 
       - run:
           name: Vet
