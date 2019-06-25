@@ -32,6 +32,18 @@ jobs:
             go get github.com/jstemmer/go-junit-report
 
       - run:
+          name: Fmt
+          command: "! go fmt ./... 2>&1 | read"
+
+      - run:
+          name: Lint
+          command: golint -set_exit_status ./...
+
+      - run:
+          name: Vet
+          command: go vet ./...
+
+      - run:
           name: Test
           command: |
             trap "go-junit-report <${TEST_RESULTS}/go-test.out > ${TEST_RESULTS}/go-test-report.xml" EXIT
