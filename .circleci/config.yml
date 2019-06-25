@@ -34,12 +34,12 @@ jobs:
       - run:
           name: Lint
           command: |
-            golint ./lambda/...
+            golint ./...
 
       - run:
           name: Vet
           command: |
-            go vet ./lambda/...
+            go vet ./...
 
       - run:
           name: Test
