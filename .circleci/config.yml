@@ -34,7 +34,7 @@ jobs:
       - run:
           name: Fmt
           command: |
-            test -z "$(gofmt -s -l ./... | tee /dev/stderr)"
+            test -z "$(gofmt -s -l . | tee /dev/stderr)"
 
       - run:
           name: Lint
