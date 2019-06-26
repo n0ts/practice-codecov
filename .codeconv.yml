@@ -10,8 +10,8 @@ coverage:
 
   status:
     project: yes
-    patch: no # See: https://docs.codecov.io/docs/commit-status#section-patch-status
-    changes: no
+    patch: yes # See: https://docs.codecov.io/docs/commit-status#section-patch-status
+    changes: yes
 
 parsers:
   gcov:
